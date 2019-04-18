@@ -38,6 +38,10 @@
         type: Boolean,
         default: false
       },
+      isNew:{
+        type: Boolean,
+        default: true
+      },
       townInfo: {
         type: Object,
         default: function () {
@@ -55,7 +59,12 @@
         console.log("保存小镇信息")
         this.isShow = false;
         const TownMap = this.$parse.Object.extend("TownMap");
-        const townMap = new TownMap();
+        var townMap;
+        if (this.isNew == true){
+          townMap = new TownMap();
+        } else {
+          townMap = TownMap.createWithoutData(this.townInfo.objectId);
+        }
         townMap.set("name", this.townInfo.name);
         townMap.set("region", this.townInfo.region);
         townMap.set("cover_link", this.townInfo.cover_link);
@@ -66,7 +75,7 @@
         townMap.save()
           .then((townMapInfo) => {
             // Execute any logic that should take place after the object is saved.
-            alert("新建成功");
+            alert("保存成功");
             this.$emit('sendNewTownInfo');
 
           }, (error) => {
@@ -75,7 +84,6 @@
             alert('Failed to create new object, with error code: ' + error.message);
             console.log('Failed to create new object, with error code: ' + error.message)
           });
-
       }
     },
     watch: {

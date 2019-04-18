@@ -46,9 +46,20 @@
         prop="description"
         label="小镇描述">
       </el-table-column>
+      <el-table-column
+        label="操作">
+        <template slot-scope="scope">
+          <el-button type="success" size="small" @click="editNewTown(scope.row)">编辑
+          </el-button>
+          <el-button type="success" size="small" @click="deleteNewTown(scope.row.objectId)">删除
+          </el-button>
+        </template>
+
+      </el-table-column>
+
     </el-table>
 
-    <add-new-town  v-on:sendNewTownInfo="createNewTown" :is-show.sync="isOnCreateNewTown"  ></add-new-town>
+    <add-new-town  v-on:sendNewTownInfo="createNewTown" :is-show.sync="isOnCreateNewTown" :townInfo="editTownItem"  :is-new="is_new_town"></add-new-town>
   </div>
 
 
@@ -70,6 +81,8 @@
             description:"长沙出发1h，国内赏樱新去处，建筑大师亲自设计文化园，有山有水近郊避世小镇"
           }],
           isOnCreateNewTown: false,
+          editTownItem:{coordinate:{}},
+          is_new_town:true,
         }
       },
       mounted(){
@@ -85,12 +98,35 @@
         },
         showNewTownDialog(){
           this.isOnCreateNewTown = true;
+          this.is_new_town = true;
+          // this.editTownItem = {coordinate:{}};
+          console.log("xinjian")
         },
         createNewTown(){
           this.getTownMapList();
         },
         enterHomeMapList(){
           this.$router.push('/homeMapList');
+        },
+        deleteNewTown(objectId){
+          var townMapQuery = new this.$parse.Query("TownMap");
+          townMapQuery.equalTo("objectId",objectId);
+          townMapQuery.find().then((result)=> {
+            if (result.length > 0){
+              result[0].destroy().then((myObject) => {
+                alert("删除成功");
+                this.getTownMapList();
+              }, (error) => {
+                alert("删除失败"+error);
+              });
+            }
+          })
+        },
+        editNewTown(row){
+          console.log("编辑"+row);
+          this.isOnCreateNewTown = true;
+          this.editTownItem = row;
+          this.is_new_town = false;
         }
       }
 

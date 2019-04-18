@@ -2,7 +2,7 @@
   <div>
     <el-button type="primary" @click="showNewTownDialog">新建民宿</el-button>
     <el-table
-      :data="townMapList"
+      :data="homeMapList"
       style="width: 100%">
 
       <el-table-column
@@ -37,9 +37,20 @@
         prop="description"
         label="民宿描述">
       </el-table-column>
+
+      <el-table-column
+        label="操作">
+        <template slot-scope="scope">
+          <el-button type="success" size="small" @click="editNewHome(scope.row)">编辑
+          </el-button>
+          <el-button type="success" size="small" @click="deleteNewHome(scope.row.objectId)">删除
+          </el-button>
+        </template>
+
+      </el-table-column>
     </el-table>
 
-    <add-home-map  v-on:sendHomeMapInfo="createNewHome" :is-show.sync="isOnCreateNewTown"  ></add-home-map>
+    <add-home-map  v-on:sendHomeMapInfo="createNewHome" :is-show.sync="isOnCreateNewTown" :all_towns="townList" :townInfo="editHomeItem"  :is-new="is_new_home"></add-home-map>
   </div>
 
 
@@ -49,11 +60,11 @@
   import AddNewTown from "../components/addNewTown";
   import AddHomeMap from "../components/addHomeMap";
   export default {
-    name: "townMapList",
+    name: "homeMapList",
     components: {AddHomeMap, AddNewTown},
     data(){
       return{
-        townMapList:[{
+        homeMapList:[{
           cover_link:"https://img.yzcdn.cn/upload_files/2019/03/14/FpDBi7GG27pJGrSxa9MgLz6TcVxQ.png?imageView2%2F2%2Fw%2F730%2Fh%2F0%2Fq%2F75%2Fformat%2Fpng",
           name:"🏠 黄山店村",
           coordinate:"(28,119)",
@@ -61,24 +72,57 @@
           description:"长沙出发1h，国内赏樱新去处，建筑大师亲自设计文化园，有山有水近郊避世小镇"
         }],
         isOnCreateNewTown: false,
+        townList:[],
+        editHomeItem:{coordinate:{}},
+        is_new_home:true,
       }
     },
     mounted(){
-      this.getTownMapList();
+      this.getHomeMapList();
+      this.getTownList();
     },
     methods:{
-      getTownMapList(){
+      getHomeMapList(){
         var townMapQuery = new this.$parse.Query("HomeMap");
         townMapQuery.find().then((result)=> {
           console.log(result.map(item=>item.toJSON()))
-          this.townMapList = result.map(item=>item.toJSON());
+          this.homeMapList = result.map(item=>item.toJSON());
+        })
+      },
+      getTownList(){
+        var townMapQuery = new this.$parse.Query("TownMap");
+        townMapQuery.find().then((result)=> {
+          console.log(result.map(item=>item.toJSON()))
+          this.townList = result.map(item=>item.toJSON());
         })
       },
       showNewTownDialog(){
         this.isOnCreateNewTown = true;
+        this.is_new_home = true;
+        // this.editHomeItem = {coordinate:{}};
       },
       createNewHome(){
-        this.getTownMapList();
+        this.getHomeMapList();
+      },
+      deleteNewHome(objectId){
+        var townMapQuery = new this.$parse.Query("HomeMap");
+        townMapQuery.equalTo("objectId",objectId);
+        townMapQuery.find().then((result)=> {
+          if (result.length > 0){
+            result[0].destroy().then((myObject) => {
+              alert("删除成功");
+              this.getHomeMapList();
+            }, (error) => {
+              alert("删除失败"+error);
+            });
+          }
+        })
+      },
+      editNewHome(row){
+        console.log("编辑"+row);
+        this.isOnCreateNewTown = true;
+        this.editHomeItem = row;
+        this.is_new_home = false;
       }
     }
 

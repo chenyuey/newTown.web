@@ -19,6 +19,16 @@
           <el-form-item label="民宿描述">
             <el-input type="textarea" v-model="townInfo.description" placeholder="请输入简介"></el-input>
           </el-form-item>
+          <el-form-item label="所属小镇">
+            <el-select v-model="townInfo.nearby_towns" multiple placeholder="请选择">
+              <el-option
+                v-for="item in all_towns"
+                :key="item.name"
+                :label="item.name"
+                :value="item.objectId">
+              </el-option>
+            </el-select>
+          </el-form-item>
         </el-form>
       </div>
       <div slot="footer" class="dialog-footer">
@@ -35,12 +45,23 @@
         type: Boolean,
         default: false
       },
+    isNew:{
+      type: Boolean,
+      default: true
+    },
       townInfo: {
         type: Object,
         default: function () {
-          return {coordinate:{}}
+          return {coordinate:{},
+            nearby_towns:[]}
         }
       },
+      all_towns:{
+        type:Object,
+        default:function () {
+          return []
+        }
+      }
     },
     data() {
       return {
@@ -50,19 +71,26 @@
     methods:{
       saveNewTownInfo(){
         console.log("保存小镇信息")
+        console.log(this.townInfo);
+
         this.isShow = false;
         const TownMap = this.$parse.Object.extend("HomeMap");
-        const townMap = new TownMap();
+        var townMap;
+        if (this.isNew == true){
+          townMap = new TownMap();
+        } else {
+          townMap = TownMap.createWithoutData(this.townInfo.objectId);
+        }
         townMap.set("name", this.townInfo.name);
         townMap.set("cover_link", this.townInfo.cover_link);
         townMap.set("description", this.townInfo.description);
         townMap.set("link", this.townInfo.link);
         townMap.set("coordinate", new this.$parse.GeoPoint(Number(this.townInfo.coordinate.latitude),Number(this.townInfo.coordinate.longitude)));
-
+        townMap.set("nearby_towns",this.townInfo.nearby_towns);
         townMap.save()
           .then((townMapInfo) => {
             // Execute any logic that should take place after the object is saved.
-            alert("新建成功");
+            alert("保存成功");
             this.$emit("sendHomeMapInfo");
 
           }, (error) => {
