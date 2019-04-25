@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
 
 // var Parse = require('parse');
 const Parse = require('parse');
@@ -8,6 +7,7 @@ Parse.initialize("myAppId", "myMasterKey");
 Parse.serverURL = 'http://47.95.200.31:1340/api/1';
 import TownMapList from '@/views/townMapList'
 import HomeMapList from '@/views/homeMapList'
+import AdvertisementList from '@/views/advertisementList.vue'
 
 Vue.use(Router)
 
@@ -25,6 +25,11 @@ export default new Router({
       path: '/homeMapList',
       name: 'HomeMapList',
       component: HomeMapList
+    },
+    {
+      path: '/advertisementList',
+      name: 'AdvertisementList',
+      component: AdvertisementList
     }
   ]
 })

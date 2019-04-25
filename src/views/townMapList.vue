@@ -5,6 +5,7 @@
   <div>
     <el-button type="primary" @click="showNewTownDialog">新建小镇</el-button>
     <el-button type="primary" @click="enterHomeMapList">进入民宿列表</el-button>
+    <el-button type="primary" @click="enterAdList">进入广告列表</el-button>
     <el-table
       :data="townMapList"
       style="width: 100%">
@@ -107,6 +108,9 @@
         },
         enterHomeMapList(){
           this.$router.push('/homeMapList');
+        },
+        enterAdList(){
+          this.$router.push('/advertisementList');
         },
         deleteNewTown(objectId){
           var townMapQuery = new this.$parse.Query("TownMap");
