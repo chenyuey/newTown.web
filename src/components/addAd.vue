@@ -7,8 +7,8 @@
               <picture-input ref="adImage" @change="onAdImageChange"
                              :prefill="adInfo.adImage.url"
                              width="130" height="130" margin="16"
-                             accept="image/jpeg,image/png" size="10" buttonClass="btn"></picture-input>
-              <div>（备注：请上传尺寸为375*812，如果尺寸错误，不会强制禁止，但是可能会影响App的展示）</div>
+                             accept="image/jpeg,image/png,image/jpg" size="10" buttonClass="btn"></picture-input>
+              <div>（备注：请上传png、jpg、jpeg类型图片）</div>
             </el-form-item>
             <el-form-item label="是否展示" >
               <el-switch
@@ -75,8 +75,6 @@
             }, (error) => {
               // Execute any logic that should take place if the save fails.
               // error is a Parse.Error with an error code and message.
-              alert('Failed to create new object, with error code: ' + error.message);
-              console.log('Failed to create new object, with error code: ' + error.message)
             });
         },
         onAdImageChange(){

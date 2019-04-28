@@ -521,10 +521,13 @@
             this.onFileChange(e, true)
           })
           .catch(err => {
-            this.$emit('error', {
-              type: 'failedPrefill',
-              message: 'Failed loading prefill image: ' + err
-            })
+            if ((typeof source) == 'String') {
+              this.$emit('error', {
+                type: 'failedPrefill',
+                message: 'Failed loading prefill image: ' + err
+              })
+            }
+
           })
       }
     },

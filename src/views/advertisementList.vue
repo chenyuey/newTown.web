@@ -9,7 +9,7 @@
       >
         <template slot-scope="scopeTmpImage">
           <div style="display: flex;">
-          <img :src="scopeTmpImage.row.adImage.url" style="width: 60px;height: 130px ; border: 1px solid gray"/>
+          <img :src="scopeTmpImage.row.adImage.url" style="width: 120px;height: 130px ; border: 1px solid gray"/>
         </div>
         </template>
       </el-table-column>
@@ -33,8 +33,8 @@
       <el-table-column
         label="操作">
         <template slot-scope="scope">
-          <el-button type="success" size="small" @click="editNewAd(scope.row)">编辑
-          </el-button>
+          <!--<el-button type="success" size="small" @click="editNewAd(scope.row)">编辑-->
+          <!--</el-button>-->
           <el-button type="success" size="small" @click="deleteNewAd(scope.row.objectId)">删除
           </el-button>
 
