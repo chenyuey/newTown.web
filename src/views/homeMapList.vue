@@ -1,67 +1,72 @@
 <template>
-  <div>
-    <el-button type="primary" @click="showNewTownDialog">新建民宿</el-button>
-    <el-table
-      :data="homeMapList"
-      style="width: 100%">
+  <div class="l-page">
+    <el-container class="l-main">
+      <m-sider actionPage="TownMapList" pageUrl="HomeMapList"></m-sider>
+      <div style="width: 100%">
+        <el-button type="primary" @click="showNewTownDialog">新建民宿</el-button>
+        <el-table
+          :data="homeMapList"
+          style="width: 100%">
 
-      <el-table-column
-        label="封面"
-      >
-        <template slot-scope="scope">
-          <div style="display: flex">
-            <img :src="scope.row.cover_link" style="width: 60px;height: 60px"/>
-          </div>
-        </template>
-      </el-table-column>
-      <el-table-column
-        prop="name"
-        label="民宿标题"
-      >
-      </el-table-column>
-      <el-table-column
-        prop="coordinate.longitude"
-        label="经度"
-      >
-      </el-table-column>
-      <el-table-column
-        prop="coordinate.latitude"
-        label="纬度"
-      >
-      </el-table-column>
-      <el-table-column
-        prop="link"
-        label="链接地址">
-      </el-table-column>
-      <el-table-column
-        prop="description"
-        label="民宿描述">
-      </el-table-column>
+          <el-table-column
+            label="封面"
+          >
+            <template slot-scope="scope">
+              <div style="display: flex">
+                <img :src="scope.row.cover_link" style="width: 60px;height: 60px"/>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="name"
+            label="民宿标题"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="coordinate.longitude"
+            label="经度"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="coordinate.latitude"
+            label="纬度"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="link"
+            label="链接地址">
+          </el-table-column>
+          <el-table-column
+            prop="description"
+            label="民宿描述">
+          </el-table-column>
 
-      <el-table-column
-        label="操作">
-        <template slot-scope="scope">
-          <el-button type="success" size="small" @click="editNewHome(scope.row)">编辑
-          </el-button>
-          <el-button type="success" size="small" @click="deleteNewHome(scope.row.objectId)">删除
-          </el-button>
-        </template>
+          <el-table-column
+            label="操作">
+            <template slot-scope="scope">
+              <el-button type="success" size="small" @click="editNewHome(scope.row)">编辑
+              </el-button>
+              <el-button type="success" size="small" @click="deleteMessageBox(scope.row.objectId)">删除
+              </el-button>
+            </template>
 
-      </el-table-column>
-    </el-table>
+          </el-table-column>
+        </el-table>
+        <add-home-map  v-on:sendHomeMapInfo="createNewHome" :is-show.sync="isOnCreateNewTown" :all_towns="townList" :townInfo="editHomeItem"  :is-new="is_new_home"></add-home-map>
+      </div>
 
-    <add-home-map  v-on:sendHomeMapInfo="createNewHome" :is-show.sync="isOnCreateNewTown" :all_towns="townList" :townInfo="editHomeItem"  :is-new="is_new_home"></add-home-map>
+    </el-container>
   </div>
-
 
 </template>
 
 <script>
-  import AddNewTown from "../components/addNewTown";
   import AddHomeMap from "../components/addHomeMap";
+  import Sider from '../components/Sider.vue'
   export default {
     name: "homeMapList",
-    components: {AddHomeMap, AddNewTown},
+    components: {AddHomeMap,
+      'm-sider': Sider},
     data(){
       return{
         homeMapList:[{
@@ -110,10 +115,16 @@
         townMapQuery.find().then((result)=> {
           if (result.length > 0){
             result[0].destroy().then((myObject) => {
-              alert("删除成功");
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              });
               this.getHomeMapList();
             }, (error) => {
-              alert("删除失败"+error);
+              this.$message({
+                type: 'success',
+                message: '删除失败!'
+              });
             });
           }
         })
@@ -123,6 +134,20 @@
         this.isOnCreateNewTown = true;
         this.editHomeItem = row;
         this.is_new_home = false;
+      },
+      deleteMessageBox(objectId) {
+        this.$confirm('此操作将永久删除该民宿, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.deleteNewHome(objectId);
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
       }
     }
 

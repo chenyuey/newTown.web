@@ -22,6 +22,11 @@ export default new Router({
       component: TownMapList
     },
     {
+      path: '/townMapList',
+      name: 'TownMapList',
+      component: TownMapList
+    },
+    {
       path: '/homeMapList',
       name: 'HomeMapList',
       component: HomeMapList

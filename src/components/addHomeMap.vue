@@ -90,7 +90,10 @@
         townMap.save()
           .then((townMapInfo) => {
             // Execute any logic that should take place after the object is saved.
-            alert("保存成功");
+            this.$message({
+              type: 'success',
+              message: '保存成功!'
+            });
             this.$emit("sendHomeMapInfo");
 
           }, (error) => {

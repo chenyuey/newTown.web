@@ -1,0 +1,263 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+#app {
+  height: 100%;
+}
+
+.l-page {
+  height: 100%;
+  width: 100%;
+  min-width: 1300px;
+  overflow: hidden;
+  position: relative;
+}
+
+.l-header {
+  position: absolute;
+  height: 50px;
+  width: 100%;
+  /*min-width: 1100px;*/
+  border-bottom: 1px solid #e5e5e5;
+  z-index: 401;
+  padding: 0 5px;
+  background: white;
+}
+
+.l-header_action {
+  position: fixed;
+  bottom: 0;
+  color: #e5e5e5;
+  padding: 10px 0;
+  word-break: break-word;
+  background: #535353;
+  z-index: 407;
+}
+
+.l-header_logo {
+  padding: 15px 21px;
+  font-size: 14px;
+}
+
+.o-logo {
+  height: 60px;
+  width: 60px;
+}
+
+.o-dropdown {
+  height: 14px;
+  line-height: 14px;
+}
+
+.l-main {
+  height: 100%;
+  display: flex;
+  position: relative;
+}
+
+.l-aside {
+  height: 100%;
+  float: left;
+  z-index: 400;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.l-content {
+  height: 100%;
+  overflow: auto;
+  flex-grow: 1;
+  background-color: rgb(242, 242, 242);
+}
+
+.left-aside {
+  -webkit-box-shadow: 0 0 1px 0 rgba(0, 0, 0, .2);
+  box-shadow: 0 0 1px 0 rgba(0, 0, 0, .2);
+  display: flex;
+  z-index: 402;
+}
+
+.l-aside-left {
+  width: 150px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  background: #444;
+}
+
+.team-logo-wrap {
+  display: block;
+  width: 90px;
+  height: 63px;
+  overflow: hidden;
+}
+
+.team-logo {
+  margin: 14px auto 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  background-size: cover;
+  background-position: 50% 50%;
+  background-color: #fff;
+  box-sizing: border-box;
+  border: 1px solid #fff;
+}
+
+.l-aside-left-menu {
+  border-right: none!important;
+  background: #444!important;
+}
+
+.l-aside-left-menu li {
+  padding: 0 !important;
+  text-align: center;
+  color: #cacaca;
+  height: 36px;
+  line-height: 36px;
+  margin-bottom: 14px;
+}
+
+.l-aside-left-menu li:hover {
+  background-color: #666;
+  color: white;
+}
+
+.el-menu-item.is-active {
+  outline: 0;
+  background-color: #f8f8f8;
+  color: #333 !important;
+}
+
+.el-menu-item.is-active:focus, .el-menu-item.is-active:hover {
+  outline: 0;
+  background-color: #f8f8f8;
+  color: #333 !important;
+}
+
+.el-menu-item i {
+  color: inherit;
+}
+
+.fr {
+  float: right;
+}
+
+.fl{
+  float: left;
+}
+
+.el-select .el-input {
+  width: 130px;
+}
+
+.goodsLabel .el-select .el-input{
+  width: 230px!important;
+}
+
+.el-menu-item [class^=el-icon-] {
+  margin-right: 0;
+}
+
+.el-dropdown-link {
+  width: 90px;
+  display: block;
+  line-height: 30px;
+  padding: 0 12px;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  color: #e5e5e5;
+}
+
+.l-aside-right {
+  width: 130px;
+}
+
+.l-aside-right ul {
+  border-right: none;
+  padding: 13px 10px;
+}
+
+.l-aside-right ul li {
+  padding: 0 !important;
+  font-size: 14px;
+  height: 36px;
+  line-height: 36px;
+  margin-bottom: 14px;
+  overflow: hidden;
+  cursor: pointer;
+  border-radius: 2px;
+  text-align: center;
+}
+
+.l-aside-left-title {
+  font-size: 14px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  border-bottom: 1px solid #f2f2f2;
+}
+
+.el-dropdown {
+  display: block;
+  font-size: 12px;
+}
+
+.pagination-position{
+  text-align: center;
+  margin-top: 60px;
+}
+
+.c-goodsTypeList {
+  margin: 10px;
+  padding: 15px;
+  min-width: 750px;
+  min-height: 500px;
+  -webkit-box-shadow: 0 0 1px 0 rgba(0,0,0,.2);
+  background: white;
+  box-shadow: 0 0 1px 0 rgba(0,0,0,.2);
+}
+
+.l-content {
+  padding-top: 50px;
+}
+
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: #409EFF;
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px!important;
+  text-align: center;
+}
+.avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
+}
+
+.orderInfo-input{
+  margin-bottom: 20px;
+}

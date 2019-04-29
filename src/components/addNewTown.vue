@@ -6,8 +6,8 @@
           <el-form-item label="小镇名称" >
             <el-input v-model="townInfo.name"  placeholder="请输入小镇名称"></el-input>
           </el-form-item>
-          <el-form-item label="小镇区域" >
-            <el-input v-model="townInfo.region"  placeholder="请输入小镇区域"></el-input>
+          <el-form-item label="分类" >
+            <el-input v-model="townInfo.region"  placeholder="请输入小镇分类"></el-input>
           </el-form-item>
           <el-form-item label="封面url" >
             <el-input v-model="townInfo.cover_link"  placeholder="请输入小镇封面url"></el-input>
@@ -75,7 +75,10 @@
         townMap.save()
           .then((townMapInfo) => {
             // Execute any logic that should take place after the object is saved.
-            alert("保存成功");
+            this.$message({
+              type: 'success',
+              message: '保存成功!'
+            });
             this.$emit('sendNewTownInfo');
 
           }, (error) => {

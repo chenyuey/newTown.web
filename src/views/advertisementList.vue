@@ -1,63 +1,72 @@
 <template>
-  <div>
-    <el-button type="primary" @click="showNewTownDialog">新建广告</el-button>
-    <el-table
-      :data="adList"
-      style="width: 100%">
-      <el-table-column
-        label="启动页图片"
-      >
-        <template slot-scope="scopeTmpImage">
-          <div style="display: flex;">
-          <img :src="scopeTmpImage.row.adImage.url" style="width: 120px;height: 130px ; border: 1px solid gray"/>
-        </div>
-        </template>
-      </el-table-column>
+  <div class="l-page">
+    <el-container class="l-main">
+      <m-sider actionPage="advertisementList" pageUrl="advertisementList"></m-sider>
+      <div style="width: 100%">
+        <el-button type="primary" @click="showNewTownDialog">新建广告</el-button>
+        <el-table
+          :data="adList"
+          style="width: 100%">
+          <el-table-column
+            label="启动页图片"
+          >
+            <template slot-scope="scopeTmpImage">
+              <div style="display: flex;">
+                <img :src="scopeTmpImage.row.adImage.url" style="width: 120px;height: 130px ; border: 1px solid gray"/>
+              </div>
+            </template>
+          </el-table-column>
 
-      <el-table-column
-        label="上线状态"
-      >
-        <template slot-scope="scopeTmpSwitch">
-          <div style="display: flex">
-            <el-switch
-              v-model="scopeTmpSwitch.row.isOnline"
-              @change="updateOnlineStatus(scopeTmpSwitch.row)"
-              active-color="#13ce66"
-              inactive-color="#ff4949">
-            </el-switch>
-          </div>
-        </template>
+          <el-table-column
+            label="上线状态"
+          >
+            <template slot-scope="scopeTmpSwitch">
+              <div style="display: flex">
+                <el-switch
+                  v-model="scopeTmpSwitch.row.isOnline"
+                  @change="updateOnlineStatus(scopeTmpSwitch.row)"
+                  active-color="#13ce66"
+                  inactive-color="#ff4949">
+                </el-switch>
+              </div>
+            </template>
 
 
-      </el-table-column>
-      <el-table-column
-        label="操作">
-        <template slot-scope="scope">
-          <!--<el-button type="success" size="small" @click="editNewAd(scope.row)">编辑-->
-          <!--</el-button>-->
-          <el-button type="success" size="small" @click="deleteNewAd(scope.row.objectId)">删除
-          </el-button>
+          </el-table-column>
+          <el-table-column
+            label="操作">
+            <template slot-scope="scope">
+              <!--<el-button type="success" size="small" @click="editNewAd(scope.row)">编辑-->
+              <!--</el-button>-->
+              <el-button type="success" size="small" @click="deleteMessageBox(scope.row.objectId)">删除
+              </el-button>
 
-        </template>
+            </template>
 
-      </el-table-column>
-    </el-table>
-
-    <add-ad  v-on:sendAdInfo="createNewAd" :is-show.sync="isOnCreateNewAd" :adInfo="editAdItem"  :is-new="is_new_ad"></add-ad>
+          </el-table-column>
+        </el-table>
+        <add-ad  v-on:sendAdInfo="createNewAd" :is-show.sync="isOnCreateNewAd" :adInfo="editAdItem"  :is-new="is_new_ad"></add-ad>
+      </div>
+    </el-container>
   </div>
+
 </template>
 
 <script>
   import AddAd from "../components/AddAd";
+  import Sider from '../components/Sider.vue'
   export default {
     name: "adList",
-    components: {AddAd},
+    components: {AddAd,
+      'm-sider': Sider
+    },
     data(){
       return{
         adList:[],
         isOnCreateNewAd: false,
         editAdItem:{adImage:{url:""}},
         is_new_ad:true,
+
       }
     },
     mounted(){
@@ -85,10 +94,16 @@
         townMapQuery.find().then((result)=> {
           if (result.length > 0){
             result[0].destroy().then((myObject) => {
-              alert("删除成功");
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              });
               this.getAdvertisementList();
             }, (error) => {
-              alert("删除失败"+error);
+              this.$message({
+                type: 'success',
+                message: '删除失败!'
+              });
             });
           }
         })
@@ -109,6 +124,20 @@
           }, (error) => {
           });
 
+      },
+      deleteMessageBox(objectId) {
+        this.$confirm('此操作将永久删除该启动图, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.deleteNewAd(objectId);
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
       }
     }
     ,watch:{
