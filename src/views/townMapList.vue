@@ -4,7 +4,35 @@
   <!--</el-row>-->
   <div class="l-page">
     <el-container class="l-main">
-      <m-sider actionPage="TownMapList" pageUrl="TownMapList"></m-sider>
+      <!--<m-sider actionPage="TownMapList" pageUrl="TownMapList"></m-sider>-->
+
+      <el-col :span="4" style="height: 100%; background-color:#545c64">
+        <el-menu
+          default-active="2"
+          class="el-menu-vertical-demo"
+          @open="handleOpen"
+          @close="handleClose"
+          @select="goToNewPage"
+          background-color="#545c64"
+          text-color="#fff"
+          active-text-color="#ffd04b">
+          <el-submenu index="1">
+            <template slot="title">
+              <i class="el-icon-location"></i>
+              <span>地图信息设置</span>
+            </template>
+            <el-menu-item-group>
+              <el-menu-item index="/">小镇</el-menu-item>
+              <el-menu-item index="/homeMapList">住宿</el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
+          <el-menu-item index="/advertisementList">
+            <i class="el-icon-menu"></i>
+            <span slot="title">App启动图设置</span>
+          </el-menu-item>
+        </el-menu>
+      </el-col>
+
       <div style="width: 100%">
         <el-button type="primary" @click="showNewTownDialog">新建小镇</el-button>
         <el-table
@@ -158,6 +186,9 @@
               message: '已取消删除'
             });
           });
+        },
+        goToNewPage(key){
+          this.$router.push(key);
         }
       }
 
