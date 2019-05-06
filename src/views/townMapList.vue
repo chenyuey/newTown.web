@@ -52,8 +52,6 @@
           <el-table-column prop="region" label="分类"></el-table-column>
           <el-table-column prop="coordinate.longitude" label="经度"></el-table-column>
           <el-table-column prop="coordinate.latitude" label="纬度"></el-table-column>
-          <el-table-column :show-overflow-tooltip="true" prop="link" label="链接地址"></el-table-column>
-          <el-table-column :show-overflow-tooltip="true" prop="description" label="小镇描述"></el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
               <el-button type="success" size="small" @click="editNewTown(scope.row)">编辑</el-button>
