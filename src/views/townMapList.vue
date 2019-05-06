@@ -53,11 +53,7 @@
           <el-table-column label="操作">
             <template slot-scope="scope">
               <el-button type="success" size="small" @click="editNewTown(scope.row)">编辑</el-button>
-              <el-button
-                type="success"
-                size="small"
-                @click="deleteMessageBox(scope.row.objectId)"
-              >删除</el-button>
+              <el-button type="danger" size="small" @click="deleteMessageBox(scope.row.objectId)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
