@@ -37,7 +37,10 @@
 
       <div style="width: 100%;overflow:scroll">
         <el-button type="primary" @click="showNewTownDialog" class="right-position-btn">新建小镇</el-button>
-        <el-table :data="townMapList" style="width: 100%">
+        <el-table
+          :data="townMapList.slice((currentPage-1)*pagesize,currentPage*pagesize)"
+          style="width: 100%"
+        >
           <el-table-column label="封面">
             <template slot-scope="scope">
               <div style="display: flex">
@@ -59,6 +62,18 @@
           </el-table-column>
         </el-table>
 
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="currentPage"
+          :page-sizes="[10,20]"
+          :page-size="20"
+          background
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="total"
+          style="margin: 10px"
+        ></el-pagination>
+
         <add-new-town
           v-on:sendNewTownInfo="createNewTown"
           :is-show.sync="isOnCreateNewTown"
@@ -78,6 +93,9 @@ export default {
   components: { AddNewTown, 'm-sider': Sider },
   data() {
     return {
+      pagesize: 20,
+      total: 0,
+      currentPage: 1,
       townMapList: [
         {
           cover_link:
@@ -105,6 +123,7 @@ export default {
       townMapQuery.find().then(result => {
         console.log(result.map(item => item.toJSON()))
         this.townMapList = result.map(item => item.toJSON())
+        this.total = this.townMapList.length
       })
     },
     showNewTownDialog() {
@@ -169,6 +188,12 @@ export default {
     },
     goToNewPage(key) {
       this.$router.push(key)
+    },
+    handleSizeChange(val) {
+      this.pagesize = val
+    },
+    handleCurrentChange(val) {
+      this.currentPage = val
     }
   }
 }

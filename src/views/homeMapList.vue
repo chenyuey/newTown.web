@@ -54,6 +54,19 @@
             </template>
           </el-table-column>
         </el-table>
+
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="currentPage"
+          :page-sizes="[10,20]"
+          :page-size="20"
+          background
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="total"
+          style="margin: 10px"
+        ></el-pagination>
+
         <add-home-map
           v-on:sendHomeMapInfo="createNewHome"
           :is-show.sync="isOnCreateNewTown"
@@ -74,6 +87,9 @@ export default {
   components: { AddHomeMap, 'm-sider': Sider },
   data() {
     return {
+      pagesize: 20,
+      total: 0,
+      currentPage: 1,
       homeMapList: [
         {
           cover_link:
@@ -102,6 +118,7 @@ export default {
       townMapQuery.find().then(result => {
         console.log(result.map(item => item.toJSON()))
         this.homeMapList = result.map(item => item.toJSON())
+        this.total = this.homeMapList.length
       })
     },
     getTownList() {
@@ -168,6 +185,12 @@ export default {
       console.log(keyPath)
       console.log(key)
       this.$router.push(key)
+    },
+    handleSizeChange(val) {
+      this.pagesize = val
+    },
+    handleCurrentChange(val) {
+      this.currentPage = val
     }
   }
 }
