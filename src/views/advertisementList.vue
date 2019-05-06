@@ -33,7 +33,7 @@
 
       <div style="width: 100%">
         <el-button type="primary" @click="showNewTownDialog" class="right-position-btn">新建广告</el-button>
-        <el-table :data="adList" style="width: 100%">
+        <el-table :data="adList" style="width: 100%;overflow:scroll">
           <el-table-column label="启动页图片">
             <template slot-scope="scopeTmpImage">
               <div style="display: flex;">

@@ -34,7 +34,7 @@
         </el-menu>
       </el-col>
 
-      <div style="width: 100%">
+      <div style="width: 100%;overflow:scroll">
         <el-button type="primary" @click="showNewTownDialog" class="right-position-btn">新建小镇</el-button>
         <el-table :data="townMapList" style="width: 100%">
           <el-table-column label="封面">

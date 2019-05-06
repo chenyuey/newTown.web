@@ -30,7 +30,7 @@
         </el-menu>
       </el-col>
 
-      <div style="width: 100%">
+      <div style="width: 100%;overflow:scroll">
         <el-button type="primary" @click="showNewTownDialog" class="right-position-btn">新建民宿</el-button>
         <el-table :data="homeMapList" style="width: 100%">
           <el-table-column label="封面">
