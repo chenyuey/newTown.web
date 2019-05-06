@@ -43,8 +43,8 @@
           <el-table-column prop="name" label="民宿标题"></el-table-column>
           <el-table-column prop="coordinate.longitude" label="经度"></el-table-column>
           <el-table-column prop="coordinate.latitude" label="纬度"></el-table-column>
-          <el-table-column prop="link" label="链接地址"></el-table-column>
-          <el-table-column prop="description" label="民宿描述"></el-table-column>
+          <el-table-column :show-overflow-tooltip="true" prop="link" label="链接地址"></el-table-column>
+          <el-table-column :show-overflow-tooltip="true" prop="description" label="民宿描述"></el-table-column>
 
           <el-table-column label="操作">
             <template slot-scope="scope">
