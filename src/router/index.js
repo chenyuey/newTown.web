@@ -2,16 +2,17 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 // var Parse = require('parse');
-const Parse = require('parse');
-Parse.initialize("myAppId", "myMasterKey");
-Parse.serverURL = 'http://47.95.200.31:1340/api/1';
+const Parse = require('parse')
+Parse.initialize('myAppId', 'myMasterKey')
+Parse.serverURL = 'http://47.95.200.31:1340/api/1'
 import TownMapList from '@/views/townMapList'
 import HomeMapList from '@/views/homeMapList'
 import AdvertisementList from '@/views/advertisementList.vue'
+import Test from '@/views/test.vue'
 
 Vue.use(Router)
 
-Vue.prototype.$parse = Parse;
+Vue.prototype.$parse = Parse
 // var AV = require('leancloud-storage');
 
 export default new Router({
@@ -35,6 +36,11 @@ export default new Router({
       path: '/advertisementList',
       name: 'AdvertisementList',
       component: AdvertisementList
+    },
+    {
+      path: '/test',
+      name: 'Test',
+      component: Test
     }
   ]
 })
