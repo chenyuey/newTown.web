@@ -1,88 +1,54 @@
 <template>
-  <div class="l-page">
-    <el-container class="l-main">
-      <!--<m-sider actionPage="TownMapList" pageUrl="HomeMapList"></m-sider>-->
-      <el-col :span="4" style="height: 100%; background-color:#545c64">
-        <el-menu
-          default-active="2"
-          class="el-menu-vertical-demo"
-          @open="handleOpen"
-          @close="handleClose"
-          @select="goToNewPage"
-          background-color="#545c64"
-          text-color="#fff"
-          active-text-color="#ffd04b"
-          default-openeds="['1']"
-        >
-          <el-submenu index="1">
-            <template slot="title">
-              <i class="el-icon-location"></i>
-              <span>地图信息设置</span>
-            </template>
-            <el-menu-item-group>
-              <el-menu-item index="/">小镇</el-menu-item>
-              <el-menu-item index="/homeMapList">住宿</el-menu-item>
-            </el-menu-item-group>
-          </el-submenu>
-          <el-menu-item index="/advertisementList">
-            <i class="el-icon-menu"></i>
-            <span slot="title">App启动图设置</span>
-          </el-menu-item>
-        </el-menu>
-      </el-col>
+  <layout>
+    <el-button type="primary" @click="showNewTownDialog" class="right-position-btn">新建民宿</el-button>
+    <el-table :data="homeMapList" style="width: 100%">
+      <el-table-column label="封面">
+        <template slot-scope="scope">
+          <div style="display: flex">
+            <img :src="scope.row.cover_link" style="width: 60px;height: 60px">
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column prop="name" label="民宿标题"></el-table-column>
+      <el-table-column prop="coordinate.longitude" label="经度"></el-table-column>
+      <el-table-column prop="coordinate.latitude" label="纬度"></el-table-column>
 
-      <div style="width: 100%;overflow:scroll">
-        <el-button type="primary" @click="showNewTownDialog" class="right-position-btn">新建民宿</el-button>
-        <el-table :data="homeMapList" style="width: 100%">
-          <el-table-column label="封面">
-            <template slot-scope="scope">
-              <div style="display: flex">
-                <img :src="scope.row.cover_link" style="width: 60px;height: 60px">
-              </div>
-            </template>
-          </el-table-column>
-          <el-table-column prop="name" label="民宿标题"></el-table-column>
-          <el-table-column prop="coordinate.longitude" label="经度"></el-table-column>
-          <el-table-column prop="coordinate.latitude" label="纬度"></el-table-column>
+      <el-table-column label="操作">
+        <template slot-scope="scope">
+          <el-button type="success" size="small" @click="editNewHome(scope.row)">编辑</el-button>
+          <el-button type="danger" size="small" @click="deleteMessageBox(scope.row.objectId)">删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
 
-          <el-table-column label="操作">
-            <template slot-scope="scope">
-              <el-button type="success" size="small" @click="editNewHome(scope.row)">编辑</el-button>
-              <el-button type="danger" size="small" @click="deleteMessageBox(scope.row.objectId)">删除</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
+    <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="currentPage"
+      :page-sizes="[10,20]"
+      :page-size="20"
+      background
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="total"
+      style="margin: 10px"
+    ></el-pagination>
 
-        <el-pagination
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="currentPage"
-          :page-sizes="[10,20]"
-          :page-size="20"
-          background
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="total"
-          style="margin: 10px"
-        ></el-pagination>
-
-        <add-home-map
-          v-on:sendHomeMapInfo="createNewHome"
-          :is-show.sync="isOnCreateNewTown"
-          :all_towns="townList"
-          :townInfo="editHomeItem"
-          :is-new="is_new_home"
-        ></add-home-map>
-      </div>
-    </el-container>
-  </div>
+    <add-home-map
+      v-on:sendHomeMapInfo="createNewHome"
+      :is-show.sync="isOnCreateNewTown"
+      :all_towns="townList"
+      :townInfo="editHomeItem"
+      :is-new="is_new_home"
+    ></add-home-map>
+  </layout>
 </template>
 
 <script>
+import layout from '../components/layout'
 import AddHomeMap from '../components/addHomeMap'
-import Sider from '../components/Sider.vue'
 export default {
   name: 'homeMapList',
-  components: { AddHomeMap, 'm-sider': Sider },
+  components: { layout, AddHomeMap },
   data() {
     return {
       pagesize: 20,

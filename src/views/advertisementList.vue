@@ -1,88 +1,53 @@
 <template>
-  <div class="l-page">
-    <el-container class="l-main">
-      <!--<m-sider actionPage="advertisementList" pageUrl="advertisementList"></m-sider>-->
+  <layout>
+    <el-button type="primary" @click="showNewTownDialog" class="right-position-btn">新建广告</el-button>
+    <el-table :data="adList" style="width: 100%;overflow:scroll">
+      <el-table-column label="启动页图片">
+        <template slot-scope="scopeTmpImage">
+          <div style="display: flex;">
+            <img
+              :src="scopeTmpImage.row.adImage.url"
+              style="width: 120px;height: 130px ; border: 1px solid gray"
+            >
+          </div>
+        </template>
+      </el-table-column>
 
-      <el-col :span="4" style="height: 100%; background-color:#545c64">
-        <el-menu
-          default-active="2"
-          class="el-menu-vertical-demo"
-          @open="handleOpen"
-          @close="handleClose"
-          @select="goToNewPage"
-          background-color="#545c64"
-          text-color="#fff"
-          active-text-color="#ffd04b"
-          default-openeds="['1']"
-        >
-          <el-submenu index="1">
-            <template slot="title">
-              <i class="el-icon-location"></i>
-              <span>地图信息设置</span>
-            </template>
-            <el-menu-item-group>
-              <el-menu-item index="/">小镇</el-menu-item>
-              <el-menu-item index="/homeMapList">住宿</el-menu-item>
-            </el-menu-item-group>
-          </el-submenu>
-          <el-menu-item index="/advertisementList">
-            <i class="el-icon-menu"></i>
-            <span slot="title">App启动图设置</span>
-          </el-menu-item>
-        </el-menu>
-      </el-col>
-
-      <div style="width: 100%">
-        <el-button type="primary" @click="showNewTownDialog" class="right-position-btn">新建广告</el-button>
-        <el-table :data="adList" style="width: 100%;overflow:scroll">
-          <el-table-column label="启动页图片">
-            <template slot-scope="scopeTmpImage">
-              <div style="display: flex;">
-                <img
-                  :src="scopeTmpImage.row.adImage.url"
-                  style="width: 120px;height: 130px ; border: 1px solid gray"
-                >
-              </div>
-            </template>
-          </el-table-column>
-
-          <el-table-column label="上线状态">
-            <template slot-scope="scopeTmpSwitch">
-              <div style="display: flex">
-                <el-switch
-                  v-model="scopeTmpSwitch.row.isOnline"
-                  @change="updateOnlineStatus(scopeTmpSwitch.row)"
-                  active-color="#13ce66"
-                  inactive-color="#ff4949"
-                ></el-switch>
-              </div>
-            </template>
-          </el-table-column>
-          <el-table-column label="操作">
-            <template slot-scope="scope">
-              <!--<el-button type="success" size="small" @click="editNewAd(scope.row)">编辑-->
-              <!--</el-button>-->
-              <el-button type="danger" size="small" @click="deleteMessageBox(scope.row.objectId)">删除</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-        <add-ad
-          v-on:sendAdInfo="createNewAd"
-          :is-show.sync="isOnCreateNewAd"
-          :adInfo="editAdItem"
-          :is-new="is_new_ad"
-        ></add-ad>
-      </div>
-    </el-container>
-  </div>
+      <el-table-column label="上线状态">
+        <template slot-scope="scopeTmpSwitch">
+          <div style="display: flex">
+            <el-switch
+              v-model="scopeTmpSwitch.row.isOnline"
+              @change="updateOnlineStatus(scopeTmpSwitch.row)"
+              active-color="#13ce66"
+              inactive-color="#ff4949"
+            ></el-switch>
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column label="操作">
+        <template slot-scope="scope">
+          <!--<el-button type="success" size="small" @click="editNewAd(scope.row)">编辑-->
+          <!--</el-button>-->
+          <el-button type="danger" size="small" @click="deleteMessageBox(scope.row.objectId)">删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <add-ad
+      v-on:sendAdInfo="createNewAd"
+      :is-show.sync="isOnCreateNewAd"
+      :adInfo="editAdItem"
+      :is-new="is_new_ad"
+    ></add-ad>
+  </layout>
 </template>
 
 <script>
+import layout from '../components/layout'
 import AddAd from '../components/AddAd'
-import Sider from '../components/Sider.vue'
 export default {
   name: 'adList',
-  components: { AddAd, 'm-sider': Sider },
+  components: { layout, AddAd },
   data() {
     return {
       adList: [],
