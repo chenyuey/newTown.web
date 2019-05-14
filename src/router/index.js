@@ -3,7 +3,7 @@ import Router from 'vue-router'
 
 // var Parse = require('parse');
 const Parse = require('parse')
-Parse.initialize('myAppId', 'myMasterKey')
+Parse.initialize('khYEI0xFyAnVCUpO', 'iFPUdLm3yCPNnRVknBWHn4z5VDczgHOL')
 Parse.serverURL = 'http://47.95.200.31:1340/api/1'
 import TownMapList from '@/views/townMapList'
 import HomeMapList from '@/views/homeMapList'
