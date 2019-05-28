@@ -12,7 +12,7 @@
             <i class="el-icon-location"></i>
             <span>地图信息设置</span>
           </template>
-          <el-menu-item index="/">小镇</el-menu-item>
+          <el-menu-item index="/townMapList">小镇</el-menu-item>
           <el-menu-item index="/homeMapList">住宿</el-menu-item>
         </el-submenu>
         <el-menu-item index="/advertisementList">

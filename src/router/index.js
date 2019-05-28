@@ -8,6 +8,7 @@ Parse.serverURL = parseConfig.url;
 import TownMapList from '@/views/townMapList';
 import HomeMapList from '@/views/homeMapList';
 import AdvertisementList from '@/views/advertisementList.vue';
+import Login from '@/views/Login.vue';
 import Test from '@/components/layout.vue';
 
 Vue.use(Router);
@@ -19,8 +20,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'TownMapList',
-      component: TownMapList
+      name: 'Login',
+      component: Login
     },
     {
       path: '/townMapList',
