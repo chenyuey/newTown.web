@@ -101,8 +101,12 @@ export default {
       this.getHomeMapList()
     },
     deleteNewHome(objectId) {
+      if (!this.$parse.User.current()){
+        alert("用户未登录，请先登录");
+        return;
+      }
       var townMapQuery = new this.$parse.Query('HomeMap')
-      townMapQuery.equalTo('objectId', objectId)
+      townMapQuery.equalTo('objectId', objectId);
       townMapQuery.find().then(result => {
         if (result.length > 0) {
           result[0].destroy().then(
@@ -121,10 +125,13 @@ export default {
             }
           )
         }
-      })
+      });
     },
     editNewHome(row) {
-      console.log('编辑' + row)
+      if (!this.$parse.User.current()){
+        alert("用户未登录，请先登录");
+        return;
+      }
       this.isOnCreateNewTown = true
       this.editHomeItem = row
       this.is_new_home = false

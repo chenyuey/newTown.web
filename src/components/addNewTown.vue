@@ -64,18 +64,26 @@ export default {
       } else {
         townMap = TownMap.createWithoutData(this.townInfo.objectId)
       }
-      townMap.set('name', this.townInfo.name)
-      townMap.set('region', this.townInfo.region)
-      townMap.set('cover_link', this.townInfo.cover_link)
-      townMap.set('description', this.townInfo.description)
-      townMap.set('link', this.townInfo.link)
+      townMap.set('name', this.townInfo.name);
+      townMap.set('region', this.townInfo.region);
+      townMap.set('cover_link', this.townInfo.cover_link);
+      townMap.set('description', this.townInfo.description);
+      townMap.set('link', this.townInfo.link);
+
+      console.log(this.$parse.User.current());
+
+      var acl = new this.$parse.ACL();
+      acl.setReadAccess(this.$parse.User.current(), true);
+      acl.setWriteAccess(this.$parse.User.current(), true);
+      townMap.setACL(acl);
+
       townMap.set(
         'coordinate',
         new this.$parse.GeoPoint(
           Number(this.townInfo.coordinate.latitude),
           Number(this.townInfo.coordinate.longitude)
         )
-      )
+      );
 
       townMap.save().then(
         townMapInfo => {

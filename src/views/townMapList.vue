@@ -102,6 +102,10 @@ export default {
       this.$router.push('/advertisementList')
     },
     deleteNewTown(objectId) {
+      if (!this.$parse.User.current()){
+        alert("用户未登录，请先登录");
+        return;
+      }
       var townMapQuery = new this.$parse.Query('TownMap')
       townMapQuery.equalTo('objectId', objectId)
       townMapQuery.find().then(result => {
@@ -125,7 +129,10 @@ export default {
       })
     },
     editNewTown(row) {
-      console.log('编辑' + row)
+      if (!this.$parse.User.current()){
+        alert("用户未登录，请先登录");
+        return;
+      }
       this.isOnCreateNewTown = true
       this.editTownItem = row
       this.is_new_town = false
