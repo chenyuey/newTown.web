@@ -21,6 +21,11 @@
             <el-input v-model="townInfo.coordinate.longitude" placeholder="请输入经度"></el-input>
             <el-input v-model="townInfo.coordinate.latitude" placeholder="请输入纬度"></el-input>
           </el-form-item>
+
+          <el-form-item>
+            <baidu-map class="map" @ready="handler" :zoom="zoom" :center="center"></baidu-map>
+          </el-form-item>
+
           <el-form-item label="民宿描述">
             <el-input type="textarea" v-model="townInfo.description" placeholder="请输入简介"></el-input>
           </el-form-item>
@@ -69,7 +74,9 @@ export default {
   data() {
     return {
       classList: [],
-      townInfo: this.townInfo
+      townInfo: this.townInfo,
+      center: { lng: 0, lat: 0 },
+      zoom: 0
     }
   },
   methods: {
@@ -104,14 +111,14 @@ export default {
       } else {
         townMap = TownMap.createWithoutData(this.townInfo.objectId)
       }
-      townMap.set('name', this.townInfo.name);
-      townMap.set('cover_link', this.townInfo.cover_link);
-      townMap.set('description', this.townInfo.description);
-      townMap.set('link', this.townInfo.link);
-      var acl = new this.$parse.ACL();
-      acl.setReadAccess(this.$parse.User.current(), true);
-      acl.setWriteAccess(this.$parse.User.current(), true);
-      townMap.setACL(acl);
+      townMap.set('name', this.townInfo.name)
+      townMap.set('cover_link', this.townInfo.cover_link)
+      townMap.set('description', this.townInfo.description)
+      townMap.set('link', this.townInfo.link)
+      var acl = new this.$parse.ACL()
+      acl.setReadAccess(this.$parse.User.current(), true)
+      acl.setWriteAccess(this.$parse.User.current(), true)
+      townMap.setACL(acl)
       townMap.set(
         'coordinate',
         new this.$parse.GeoPoint(
@@ -132,14 +139,18 @@ export default {
         error => {
           // Execute any logic that should take place if the save fails.
           // error is a Parse.Error with an error code and message.
-          alert(
-            'Failed to create new object, with error code: ' + error.message
-          )
-          console.log(
-            'Failed to create new object, with error code: ' + error.message
-          )
+          alert('Failed to create new object, with error code: ' + error.message)
+          console.log('Failed to create new object, with error code: ' + error.message)
         }
       )
+    },
+    handler({ BMap, map }) {
+      let lng = this.townInfo.coordinate.longitude
+      let lat = this.townInfo.coordinate.latitude
+      this.center = { lng, lat }
+      this.zoom = 15
+      let point = new BMap.Point(lng, lat)
+      map.addOverlay(new window.BMap.Marker(point))
     }
   },
   watch: {
@@ -149,3 +160,10 @@ export default {
   }
 }
 </script>
+
+<style>
+.map {
+  width: 100%;
+  height: 300px;
+}
+</style>
